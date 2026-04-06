@@ -1,3 +1,24 @@
+# name: Python CI - Divyani
+
+# on:
+#   push:
+#     branches: [ main ]
+
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#     - uses: actions/checkout@v2
+
+#     - name: Set up Python
+#       uses: actions/setup-python@v2
+#       with:
+#         python-version: '3.x'
+
+#     - name: Run Tests
+#       run: python -m unittest discover
+
 name: Python CI - Divyani
 
 on:
@@ -9,12 +30,22 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v3
 
     - name: Set up Python
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v4
       with:
         python-version: '3.x'
 
+    - name: Install dependencies
+      run: |
+        pip install pytest bandit
+
     - name: Run Tests
-      run: python -m unittest discover
+      run: |
+        python -m unittest discover
+
+    - name: Run Security Scan
+      run: |
+        bandit -r .
